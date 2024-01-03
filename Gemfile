@@ -73,6 +73,21 @@ gem 'bullet'
 # authentication management gem
 gem 'devise'
 
+# To safely set ENV variables
+gem 'figaro'
+
+# OmniAuth for google
+gem 'omniauth-google-oauth2'
+
+# OmniAuth for twitter
+gem 'omniauth-twitter'
+
+# Omniauth facilitator
+gem 'omniauth'
+
+# Provides a mitigation against CVE-2015-9284 (Cross-Site Request Forgery on the request phase when using OmniAuth gem) by implementing a CSRF token verifier that directly uses ActionController::RequestForgeryProtection
+gem 'omniauth-rails_csrf_protection'
+
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
