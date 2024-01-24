@@ -48,7 +48,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 1.2"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -87,6 +87,16 @@ gem 'omniauth'
 
 # Provides a mitigation against CVE-2015-9284 (Cross-Site Request Forgery on the request phase when using OmniAuth gem) by implementing a CSRF token verifier that directly uses ActionController::RequestForgeryProtection
 gem 'omniauth-rails_csrf_protection'
+
+gem 'pagy'
+
+gem 'cancancan'
+
+gem 'ransack'
+
+gem 'noticed'
+
+gem "letter_opener"
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
