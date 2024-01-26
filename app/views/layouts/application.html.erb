@@ -13,9 +13,10 @@
   <body>
     <% if signed_in? %>
       <h1><%= current_user.first_name%></h1>
+      <%= link_to "Edit Profile", edit_user_registration_path %>
+      <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
     <% else %>
-      <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path %>
-      <%= link_to "Sign in with Twitter", user_twitter_omniauth_authorize_path %>
+    <%= link_to "Sign In", new_user_session_path %>
     <% end %>
     <%= yield %>
   </body>

@@ -73,7 +73,7 @@ gem 'bullet'
 # authentication management gem
 gem 'devise'
 
-# To safely set ENV variables
+# To safely set ENV variables without using the credentials
 gem 'figaro'
 
 # OmniAuth for google

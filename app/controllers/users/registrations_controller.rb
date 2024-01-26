@@ -21,13 +21,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # PUT /resource
   # def update
-  #   super
+  #  super
   # end
 
   # DELETE /resource
   # def destroy
   #   super
   # end
+
+  def update_resource(resource, params)
+    if resource.provider.present? && resource.encrypted_password.blank?
+      resource.update(params) 
+    else
+     resource.update_with_password(params)
+    end
+  end
 
   # GET /resource/cancel
   # Forces the session data which is usually expired after sign
@@ -38,7 +46,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # protected
+  protected
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_sign_up_params
@@ -59,4 +67,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+
+  # Overriding the update_resource method to allow users to update their profile without providing a password
 end
