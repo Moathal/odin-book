@@ -60,15 +60,17 @@ group :development do
   gem "web-console"
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
-  # gem "rack-mini-profiler"
-
+  gem "rack-mini-profiler"
+  
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   gem "spring"
 
+  gem "letter_opener"
+
+  gem "bullet"
+  
   gem "error_highlight", ">= 0.4.0", platforms: [:ruby]
 end
-
-gem 'bullet'
 
 # authentication management gem
 gem 'devise'
@@ -96,7 +98,6 @@ gem 'ransack'
 
 gem 'noticed'
 
-gem "letter_opener"
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]

@@ -88,7 +88,7 @@ GEM
     bootsnap (1.17.0)
       msgpack (~> 1.2)
     builder (3.2.4)
-    bullet (7.1.4)
+    bullet (7.1.6)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     cancancan (3.5.0)
@@ -229,6 +229,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.7.3)
     rack (3.0.8)
+    rack-mini-profiler (3.3.0)
+      rack (>= 1.2.0)
     rack-protection (3.0.6)
       rack
     rack-session (2.0.0)
@@ -367,6 +369,7 @@ DEPENDENCIES
   pagy
   pg (~> 1.1)
   puma (>= 5.0)
+  rack-mini-profiler
   rails (~> 7.1.2)
   ransack
   react-rails
