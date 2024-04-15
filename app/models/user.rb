@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable, :omniauthable, omniauth_providers: [:google_oauth2]
 
+  has_many :posts
+  
   def self.from_omniauth(auth)
    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
@@ -23,7 +25,6 @@ class User < ApplicationRecord
       self.reset_password_token = hashed_token
       self.reset_password_sent_at = Time.now.utc
       self.save
-
       UserMailer.set_a_password(self, token).deliver_now
     end
   end
