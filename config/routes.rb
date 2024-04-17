@@ -1,10 +1,16 @@
 Rails.application.routes.draw do
+  resources :comments
   resources :posts
   devise_for :users, controllers: { registrations: 'users/registrations',
     sessions: 'users/sessions',
     omniauth_callbacks: 'users/omniauth_callbacks',
     passwords: 'users/passwords'
   }
+resources :users, only: %i[ show, index] do 
+  resources :posts, only: %i[ show, index, edit, update, destroy] do 
+    resources :comments, only: %i[ show, index, edit, update, destroy]
+  end
+end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
