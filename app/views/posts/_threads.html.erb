@@ -1,0 +1,7 @@
+<% post.threads.each do |thread| %>
+  <div class="post-thread">
+    <%= image_tag(thread.user.avatar_url, alt: "#{thread.user.first_name} #{thread.user.last_name}'s avatar") %>
+    <h2><%= thread.user.first_name %> <%= thread.user.last_name %></h2>
+    <p><%= thread.text %></p>
+  </div>
+<% end %>

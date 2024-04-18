@@ -2,8 +2,8 @@
   <div>
     <h2><%= user.first_name %> <%= user.last_name %></h2>
     <p>Username: <%= user.username %></p>
-    <% if user.avatar_url.present? %>
-      <%= image_tag(user.avatar_url, alt: "#{user.username}'s avatar", style: "width: 100px; height: 100px;") %>
+    <% if user.avatar.present? %>
+      <%= image_tag(user.avatar, alt: "#{user.username}'s avatar", style: "width: 100px; height: 100px;") %>
     <% else %>
       <p>No avatar available</p>
     <% end %>

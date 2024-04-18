@@ -1,12 +1,10 @@
 <div id="<%= dom_id post %>">
   <p>
-    <strong>Text:</strong>
-    <%= post.text %>
+    <%= image_tag(post.user.avatar, alt: "#{post.user.username}'s avatar", style: "width: 100px; height: 100px;") %>
+    <h2><%= post.user.first_name %> <%= post.user.last_name %></h2>
   </p>
 
   <p>
-    <strong>User:</strong>
-    <%= post.user_id %>
+    <%= post.text %>
   </p>
-
 </div>

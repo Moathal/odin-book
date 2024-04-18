@@ -66,6 +66,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_154629) do
   create_table "posts", force: :cascade do |t|
     t.text "text"
     t.bigint "user_id", null: false
+    t.integer "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_posts_on_user_id"
@@ -88,7 +89,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_154629) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "uid"
-    t.string "avatar_url"
     t.string "provider"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true

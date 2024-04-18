@@ -7,4 +7,10 @@
   <%= link_to "Back to posts", posts_path %>
 
   <%= button_to "Destroy this post", @post, method: :delete %>
+  <div class="comments">
+  <%= render template: "comments/index", locals: { user: @user } %>
+</div>
+<div class="threads">
+  <%= render @post.threads, post: @post %>
+</div>
 </div>

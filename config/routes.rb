@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   }
 resources :users, only: %i[ show, index] do 
   resources :posts, only: %i[ show, index, edit, update, destroy] do 
-    resources :comments, only: %i[ show, index, edit, update, destroy]
+    resources :comments, only: %i[ index, edit, update, destroy]
   end
 end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
