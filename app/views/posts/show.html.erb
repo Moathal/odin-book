@@ -10,7 +10,9 @@
   <div class="comments">
   <%= render template: "comments/index", locals: { user: @user } %>
 </div>
+<%= render 'form', post: Post.new, parent_id: @post.id, submitName: 'Reply as a thread', user_id: current_user.id %>
 <div class="threads">
-  <%= render @post.threads, post: @post %>
+  <%= render @threads %>
+</div>
 </div>
 </div>

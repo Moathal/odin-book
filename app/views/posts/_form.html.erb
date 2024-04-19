@@ -12,11 +12,12 @@
   <% end %>
 
   <div>
-    <%= form.label :text, style: "display: block" %>
+    <%= form.hidden_field :user_id, value: current_user.id %>
+    <%= form.hidden_field :parent_id %>
     <%= form.rich_text_area :text %>
   </div>
-  
+
   <div>
-    <%= form.submit %>
+    <%= form.submit submitName %>
   </div>
 <% end %>
