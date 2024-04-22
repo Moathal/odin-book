@@ -13,7 +13,7 @@
 
   <div>
     <%= form.hidden_field :user_id, value: current_user.id %>
-    <%= form.hidden_field :parent_id %>
+    <%= form.hidden_field :parent_id, value: parent_id %>
     <%= form.rich_text_area :text %>
   </div>
 

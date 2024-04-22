@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :follows
   resources :comments
   resources :posts
   devise_for :users, controllers: { registrations: 'users/registrations',
