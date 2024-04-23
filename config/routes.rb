@@ -1,15 +1,14 @@
 Rails.application.routes.draw do
-  resources :follows
-  resources :comments
   resources :posts
   devise_for :users, controllers: { registrations: 'users/registrations',
     sessions: 'users/sessions',
     omniauth_callbacks: 'users/omniauth_callbacks',
     passwords: 'users/passwords'
   }
-resources :users, only: %i[ show, index] do 
-  resources :posts, only: %i[ show, index, edit, update, destroy] do 
-    resources :comments, only: %i[ index, edit, update, destroy]
+  resources :users, only: %i[ show index] do 
+    resources :follows, only: %i[ index create destroy]
+    resources :posts, only: %i[ show index edit update destroy] do 
+      resources :comments, only: %i[ index edit update destroy]
   end
 end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

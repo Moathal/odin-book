@@ -43,4 +43,8 @@ class User < ApplicationRecord
     file = URI.open(url)
     avatar.attach(io: file, filename: File.basename(URI.parse(url).path))
   end
+
+  def following?(other_user)
+    followees.include?(other_user)
+  end
 end

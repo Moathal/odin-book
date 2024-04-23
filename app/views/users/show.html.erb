@@ -1,17 +1,17 @@
 <div class="user-profile">
   <div class="avatar">
-    <%= image_tag @user.avatar.url if @user.avatar.present? %>
+    <%= image_tag @user.avatar if @user.avatar.present? %>
   </div>
 
   <div class="user-info">
     <h2><%= @user.first_name %> <%= @user.last_name %></h2>
-    <p>Gender: <%= @user.gender %></p>
+    <p>Gender: <%# @user.gender %></p>
     <p>Birthday: <%= @user.birthday.strftime("%B %d, %Y") if @user.birthday.present? %></p>
   </div>
 
-  <%= render 'follow_form' if logged_in? %>
+  <%= render 'follows/form', follower: current_user, followed: @user if signed_in? && current_user != @user %>
 
   <div class="user-posts">
-    <%= render 'posts' %>
+    <%= render @user.posts %>
   </div>
 </div>
