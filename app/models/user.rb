@@ -8,11 +8,20 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_one_attached :avatar
 
+  has_many :specific_users
+  has_many :specificable_posts, through: :specific_users, source: :specificable, source_type: 'Post'
+
+  has_many :friendships
+  has_many :friends, through: :friendships
+
   has_many :followed_users, foreign_key: :follower_id, class_name: 'Follow'
   has_many :followees, through: :followed_users, source: :followee
 
   has_many :follower_users, foreign_key: :followee_id, class_name: 'Follow'
   has_many :followers, through: :follower_users, source: :follower
+
+  enum posts_privacy_setting: { everyone: 0, followers: 1, followees: 2, specific_users: 3, friends: 4, close_friends: 5, family: 6, other: 7 }
+  enum profile_privacy_setting: { everyone: 0, followers: 1, followees: 2, specific_users: 3, friends: 4, close_friends: 5, family: 6, other: 7 }
   
   def self.from_omniauth(auth)
    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
