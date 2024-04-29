@@ -8,6 +8,3 @@ end
 
 # # Remove a specific user from a post
 # post.users.delete(user)
-
-# # Add a specific user to a profile
-# profile.users << user

@@ -121,6 +121,8 @@ GEM
       ruby2_keywords
     error_highlight (0.6.0)
     erubi (1.12.0)
+    esbuild-rails (0.1.4)
+      rails (>= 6.0.0)
     execjs (2.9.1)
     faraday (2.8.1)
       base64
@@ -151,6 +153,10 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     jwt (2.7.1)
+    kredis (1.7.0)
+      activemodel (>= 6.0.0)
+      activesupport (>= 6.0.0)
+      redis (>= 4.2, < 6)
     launchy (2.5.2)
       addressable (~> 2.8)
     letter_opener (1.8.1)
@@ -356,10 +362,12 @@ DEPENDENCIES
   debug
   devise
   error_highlight (>= 0.4.0)
+  esbuild-rails
   figaro
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
+  kredis
   letter_opener
   noticed
   omniauth
