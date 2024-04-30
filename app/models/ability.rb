@@ -29,6 +29,7 @@ class Ability
     end
 
     cannot :read, User do |profile_user|
+      blocked_by_user?(user, profile_user) || 
       case profile_user.profile_privacy_setting
       when 'profile_onlyme'
         profile_user != user
@@ -46,6 +47,7 @@ class Ability
     end
 
     cannot :read, Post do |post|
+      blocked_by_user?(user, post.user) || 
       case post.privacy_setting
       when 'onlyme'
         post.user != user
@@ -61,5 +63,9 @@ class Ability
         false
       end
     end
+  end
+
+  def blocked_by_user?(user, other_user)
+    user.blocks.exists?(blocked_user_id: other_user.id) || other_user.blocks.exists?(blocked_user_id: user.id)
   end
 end

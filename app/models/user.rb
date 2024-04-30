@@ -20,6 +20,9 @@ class User < ApplicationRecord
   has_many :follower_users, foreign_key: :followee_id, class_name: 'Follow'
   has_many :followers, through: :follower_users, source: :follower
 
+  has_many :blocks, foreign_key: :blocker_id
+  has_many :blocked_users, through: :blocks, source: :blockee
+
   enum posts_privacy_setting: { posts_onlyme: 0 , posts_everyone: 1, posts_followers: 2, posts_followees: 3, posts_specific_users: 4, posts_friends: 5, posts_close_friends: 6, posts_family: 7, posts_other: 8 }
   enum profile_privacy_setting: { profile_onlyme: 0, profile_everyone: 1, profile_followers: 2, profile_followees: 3, profile_specific_users: 4, profile_friends: 5, profile_close_friends: 6, profile_family: 7, profile_other: 8 }
   
