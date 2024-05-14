@@ -1,4 +1,7 @@
 class Comment < ApplicationRecord
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+  
   belongs_to :user
   belongs_to :post
   belongs_to :parent, class_name: 'Comment', optional: true

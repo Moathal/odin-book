@@ -1,5 +1,5 @@
 # Make sure it matches the Ruby version in .ruby-version and Gemfile
-ARG RUBY_VERSION=3.1.3
+ARG RUBY_VERSION=3.3.1
 FROM ruby:$RUBY_VERSION
 
 # Install libvips for Active Storage preview support
@@ -13,12 +13,15 @@ WORKDIR /rails
 
 # Set production environment
 ENV RAILS_LOG_TO_STDOUT="1" \
-    RAILS_SERVE_STATIC_FILES="true" \
-    RAILS_ENV="production" \
-    BUNDLE_WITHOUT="development"
+  RAILS_SERVE_STATIC_FILES="true" \
+  RAILS_ENV="production" \
+  BUNDLE_WITHOUT="development" \
+  BUNDLE_PATH="/usr/local/bundle"
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
+RUN gem install google-protobuf --platform=ruby
+RUN bundle config force_ruby_platform true
 RUN bundle install
 
 # Copy application code

@@ -1,18 +1,39 @@
 version: '3'
 services:
   db:
-    image: postgres:14.2-alpine
-    container_name: odinbook-postgres-14.2
+    image: postgres
+    container_name: odinbook-postgres-16
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
     command: 
       "postgres -c 'max_connections=500'"
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${ODINBOOK_DATABASE_PASSWORD}
-    ports:
-      - "5432:5432"
+      - POSTGRES_DB=odinbook_production
+      - POSTGRES_USER=odinbook
+      - POSTGRES_PASSWORD=postgresdbforodinbookapp
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+
+  redis:
+    image: redis:6.0.10
+    volumes:
+      - redis_data:/data
+
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+
   odinbook-web:
     build: .
     command: "./bin/rails server"
@@ -21,7 +42,7 @@ services:
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${ODINBOOK_DATABASE_PASSWORD}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
     volumes:
       - app-storage:/rails/storage
@@ -33,3 +54,5 @@ services:
 volumes:
   postgres_data: {}
   app-storage: {}
+  elasticsearch_data: {}
+  redis_data: {}
