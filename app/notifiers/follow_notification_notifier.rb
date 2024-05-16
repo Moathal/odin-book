@@ -1,8 +1,9 @@
 # To deliver this notification:
 #
-FollowNotifier.with(follow: @follow).deliver(@follow.followee)
+# follow = Follow.find(params[:id])
+# FollowNotificationNotifier.with(record: follow).deliver(follow.followee)
 
-class FollowNotifier < Noticed::Event
+class FollowNotificationNotifier < Noticed::Event
   # Add your delivery methods
   #
   # deliver_by :email do |config|
@@ -20,16 +21,19 @@ class FollowNotifier < Noticed::Event
 
   # Add required params
   #
-  required_param :follow
+  required_param :message
 
-  def params 
+  def notification_params 
     {
-      follower: params[:follow].follower.fullname,
-      followed_at: Time.current
+      follower: params[:record].follower.fullname,
     }
   end
 
-  def message
-    "#{params[:follow].follower.fullname} started following you"
+  def ntofication_message
+    "#{notification_params[:follower]} #{:message}"
+  end
+
+  def url
+    follower_url(params[:record].follower)
   end
 end

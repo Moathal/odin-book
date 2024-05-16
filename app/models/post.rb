@@ -1,4 +1,7 @@
 class Post < ApplicationRecord
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+
   belongs_to :user
   has_rich_text :text
   has_many :comments, dependent: :destroy

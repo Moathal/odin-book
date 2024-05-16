@@ -6,7 +6,7 @@ class HomeController < ApplicationController
   private
 
   def filter_posts
-    readable_posts = Post.accessible_by(current_ability)
+    readable_posts = Post.all.select { |post| can? :read, post }
     readable_posts.sort_by do |post|
       [
         -post.interactions.interactions_num,
