@@ -21,7 +21,7 @@ class FollowNotificationNotifier < Noticed::Event
 
   # Add required params
   #
-  required_param :message
+  # required_param :message
 
   def notification_params 
     {
@@ -29,11 +29,46 @@ class FollowNotificationNotifier < Noticed::Event
     }
   end
 
-  def ntofication_message
-    "#{notification_params[:follower]} #{:message}"
+  notification_methods do 
+    if params[:record].became_friends
+      def message
+        "#{notification_params[:follower].fullName} has followed you back. You are now friends!! "  
+      end
+      
+      def type
+        'new_friend'
+      end
+      
+      def categorize_friend
+        { friendship_types: Friendship.types,
+          change_friendship_type_url: :change_friendship_type_url
+        }
+      end
+    
+    else
+      def message
+        "#{notification_params[:follower].fullName} has followed you."
+      end
+
+      def type
+        'just-follow'
+      end
+    end
+    
+    def follower_url
+      user_path(params[:record].follower)
+    end
   end
 
-  def url
-    follower_url(params[:record].follower)
+  def change_friendship_type_url
+    friendship = Friendship.find_by(user1_id: recipient.id, user2_id: params[:record].follower.id)
+    if friendship
+      type = friendship.type1
+    else
+      friendship = Friendship.find_by(user2_id: recipient.id, user1_id: params[:record].follower.id)
+      type = friendship.type2
+    end
+
+    user_friendship_path(friendship, type: type)
   end
 end

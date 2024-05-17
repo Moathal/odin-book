@@ -5,8 +5,9 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'users/omniauth_callbacks',
     passwords: 'users/passwords'
   }
-  resources :users, only: %i[ show index] do 
+  resources :users, only: %i[ show index] do
     resources :follows, only: %i[ index create destroy]
+    resources :friendships, only: %i[ index create update destroy ]
     resources :posts, only: %i[ show index edit update destroy] do 
       resources :comments, only: %i[ index edit update destroy]
   end

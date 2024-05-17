@@ -21,8 +21,14 @@ class Ability
         !user.following?(post.user)
       when 'posts_specific_users'
         !post.specific_users.exists?(user_id: user.id)
-      when 'posts_friends', 'close_friends', 'family', 'other'
-        !user.friends_with?(post.user) || post.user.friendships.where(friend: user).first&.friendship_type != post.user.posts_privacy_setting
+      when 'posts_friends'
+        !user.friends.include?(post.user)
+      when 'close_friends'
+        !user.close_friends.include?(post.user)
+      when 'family'
+        !user.family.include?(post.user)
+      when 'other'
+        !user.other_friends.include?(post.user)
       else
         false
       end
@@ -39,8 +45,14 @@ class Ability
         !user.following?(profile_user)
       when 'profile_specific_users'
         !profile_user.specific_users.exists?(user_id: user.id)
-      when 'profile_friends', 'close_friends', 'family', 'other'
-        !user.friends_with?(profile_user) || profile_user.friendships.where(friend: user).first&.friendship_type != profile_user.profile_privacy_setting
+      when 'profile_friends'
+        !user.friends.include?(profile_user)
+      when 'close_friends'
+        !user.close_friends.include?(profile_user)
+      when 'family'
+        !user.family.include?(profile_user)
+      when 'other'
+        !user.other_friends.include?(profile_user)
       else
         false
       end
@@ -57,8 +69,14 @@ class Ability
         !user.following?(post.user)
       when 'specific_users'
         !post.specific_users.exists?(user_id: user.id)
-      when 'friends', 'close_friends', 'family', 'other'
-        !user.friends_with?(post.user) || post.user.friendships.where(friend: user).first&.friendship_type != post.privacy_setting
+      when 'friends'
+        !user.friends.include?(post.user)
+      when 'close_friends'
+        !user.close_friends.include?(post.user)
+      when 'family'
+        !user.family.include?(post.user)
+      when 'other'
+        !user.other_friends.include?(post.user)
       else
         false
       end
