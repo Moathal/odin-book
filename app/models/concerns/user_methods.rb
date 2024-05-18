@@ -34,20 +34,8 @@ module UserMethods
       followees.include?(other_user)
     end
 
-    def friends
-      friends_as_user1 + friends_as_user2
-    end
-
-    def family
-      family_as_user1 + family_as_user2
-    end
-
-    def close_friends
-      close_friends_as_user1 + close_friends_as_user2
-    end
-
-    def other_friends
-      other_friends_as_user1 + other_friends_as_user2
+    def all_posts
+      (posts + shared_posts).uniq
     end
   end
 end

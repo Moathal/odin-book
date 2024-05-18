@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'friendships/index'
+  get 'friendships/create'
+  get 'friendships/update'
+  get 'friendships/destroy'
   resources :posts
   devise_for :users, controllers: { registrations: 'users/registrations',
     sessions: 'users/sessions',
@@ -7,7 +11,7 @@ Rails.application.routes.draw do
   }
   resources :users, only: %i[ show index] do
     resources :follows, only: %i[ index create destroy]
-    resources :friendships, only: %i[ index create update destroy ]
+    resources :friendships, only: %i[ create update destroy ]
     resources :posts, only: %i[ show index edit update destroy] do 
       resources :comments, only: %i[ index edit update destroy]
   end

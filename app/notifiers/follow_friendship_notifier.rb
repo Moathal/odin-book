@@ -1,9 +1,9 @@
 # To deliver this notification:
 #
 # follow = Follow.find(params[:id])
-# FollowNotificationNotifier.with(record: follow).deliver(follow.followee)
+# FollowFriendshipNotifier.with(record: follow).deliver(follow.followee)
 
-class FollowNotificationNotifier < Noticed::Event
+class FollowFriendshipNotifier < Noticed::Event
   # Add your delivery methods
   #
   # deliver_by :email do |config|
@@ -61,14 +61,7 @@ class FollowNotificationNotifier < Noticed::Event
   end
 
   def change_friendship_type_url
-    friendship = Friendship.find_by(user1_id: recipient.id, user2_id: params[:record].follower.id)
-    if friendship
-      type = friendship.type1
-    else
-      friendship = Friendship.find_by(user2_id: recipient.id, user1_id: params[:record].follower.id)
-      type = friendship.type2
-    end
-
-    user_friendship_path(friendship, type: type)
+      friendship = Friendship.find_by(user_id: recipient.id, friend_id: params[:record].follower.id)
+    user_friendship_path(recipient, friendship, type: friendship.type)
   end
 end

@@ -14,6 +14,8 @@ class Post < ApplicationRecord
   has_many :specific_users, as: :specificable
   has_many :users, through: :specific_users
 
+  has_many :shared_users, through: :shares, source: :user
+
   enum privacy_setting: { onlyme: 0 , everyone: 1, followers: 2, followees: 3, specific_users: 4, friends: 5, close_friends: 6, family: 7, other: 8 }
 
   def depth

@@ -4,19 +4,19 @@ module FriendshipAssociations
   extend ActiveSupport::Concern
 
   included do
-    has_many :friendships_as_user1, class_name: 'Friendship', foreign_key: 'user1_id', dependent: :destroy
-    has_many :friendships_as_user2, class_name: 'Friendship', foreign_key: 'user2_id', dependent: :destroy
+    has_many :friendships, foreign_key: 'user_id', dependent: :destroy
+    has_many :inverse_friendships, class_name: 'Friendship', foreign_key: 'friend_id', dependent: :destroy
 
-    has_many :friends_as_user1, through: :friendships_as_user1, source: :user2
-    has_many :friends_as_user2, through: :friendships_as_user2, source: :user1
+    has_many :friends, through: :friendships, source: :friend
+    has_many :inverse_friends, through: :inverse_friendships, source: :user
 
-    has_many :family_as_user1, -> { where(type1: Friendship.type1s[:family]) }, through: :friendships_as_user1, source: :user2
-    has_many :family_as_user2, -> { where(type2: Friendship.type2s[:family]) }, through: :friendships_as_user2, source: :user1
+    has_many :family, -> { where(type: Friendship.types[:family]) }, through: :friendships, source: :friend
+    has_many :inverse_family, -> { where(type: Friendship.types[:family]) }, through: :inverse_friendships, source: :user
 
-    has_many :close_friends_as_user1, -> { where(type1: Friendship.type1s[:close_friend]) }, through: :friendships_as_user1, source: :user2
-    has_many :close_friends_as_user2, -> { where(type2: Friendship.type2s[:close_friend]) }, through: :friendships_as_user2, source: :user1
+    has_many :close_friends, -> { where(type: Friendship.types[:close_friend]) }, through: :friendships, source: :friend
+    has_many :inverse_close_friends, -> { where(type: Friendship.types[:close_friend]) }, through: :inverse_friendships, source: :user
 
-    has_many :other_friends_as_user1, -> { where(type1: Friendship.type1s[:other]) }, through: :friendships_as_user1, source: :user2
-    has_many :other_friends_as_user2, -> { where(type2: Friendship.type2s[:other]) }, through: :friendships_as_user2, source: :user1
+    has_many :other_friends, -> { where(type: Friendship.types[:other]) }, through: :friendships, source: :friend
+    has_many :inverse_other_friends, -> { where(type: Friendship.types[:other]) }, through: :inverse_friendships, source: :user
   end
 end
