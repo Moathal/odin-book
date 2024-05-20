@@ -14,7 +14,7 @@ class FollowsController < ApplicationController
 
     respond_to do |format|
       if @follow.save
-        FollowFriendshipNotifier.with(record: @follow, type: 'follow').deliver(@follow.followee)
+        FollowFriendshipNotifier.with(record: @follow).deliver_later(@follow.followee)
         format.html { redirect_to user_url(@follow.followee), notice: "Follow was successfully created." }
         format.json { render :show, status: :created, location: @follow }
       else

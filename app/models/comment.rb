@@ -18,4 +18,12 @@ class Comment < ApplicationRecord
   def validate_depth
     errors.add(:base, "Depth cannot exceed 3") if depth > 3
   end
+
+  def update_interactions
+    if action == 'create'
+      post.interactions.increment(:comments_num).save
+    elsif action == 'destroy'
+      post.interactions.decrement(:comments_num).save
+    end 
+  end
 end
