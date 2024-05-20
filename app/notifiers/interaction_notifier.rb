@@ -1,6 +1,6 @@
 # To deliver this notification:
 #
-# Interaction.with(record: @post, message: "New post").deliver(User.all)
+# InteractionNotifier.with(record: @reaction, message: "New post").deliver(User.all)
 
 class InteractionNotifier < Noticed::Event
   # Add your delivery methods
@@ -20,5 +20,25 @@ class InteractionNotifier < Noticed::Event
 
   # Add required params
   #
-  # required_param :message
+  # required_param :type
+
+  notification_methods do
+    if params[:record].is_a?(Reaction)
+      def message
+        "#{params[:record].user.name} has reacted with #{params[:record].reaction} to your post."
+      end
+
+      def url
+        params[:record].post
+      end
+    else
+      def message
+        "#{params[:record].user.name} has shared your post."
+      end
+
+      def url
+        params[:record].post
+      end
+    end
+  end
 end

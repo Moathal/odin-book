@@ -35,10 +35,6 @@ class FollowFriendshipNotifier < Noticed::Event
         "#{notification_params[:follower].fullName} has followed you back. You are now friends!! "  
       end
       
-      def type
-        'new_friend'
-      end
-      
       def categorize_friend
         { friendship_types: Friendship.types,
           change_friendship_type_url: :change_friendship_type_url
@@ -48,10 +44,6 @@ class FollowFriendshipNotifier < Noticed::Event
     else
       def message
         "#{notification_params[:follower].fullName} has followed you."
-      end
-
-      def type
-        'just-follow'
       end
     end
     
