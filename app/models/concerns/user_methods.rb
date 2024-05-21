@@ -30,6 +30,10 @@ module UserMethods
       avatar.attach(io: file, filename: File.basename(URI.parse(url).path))
     end
 
+    def full_name
+      "#{first_name} #{last_name}"
+    end
+
     def following?(other_user)
       followees.include?(other_user)
     end

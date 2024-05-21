@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :users, only: %i[ show index] do
     resources :follows, only: %i[ index create destroy]
     resources :friendships, only: %i[ create update destroy ]
-    resources :posts, only: %i[ show index edit update destroy] do 
+    resources :posts, only: %i[ show index destroy] do 
       resources :comments, only: %i[ index edit update destroy]
   end
 end

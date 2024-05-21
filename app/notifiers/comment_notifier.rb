@@ -28,7 +28,7 @@ class CommentNotifier < Noticed::Event
     end
     
     def url
-      params[:record]
+      post_path(params[:record].post)
     end
   end
   
@@ -36,22 +36,22 @@ class CommentNotifier < Noticed::Event
     case params[:type]
     when 'comment'
       return {
-        headline: "#{params[:record].user.name} has commented on your post.",
+        headline: "#{params[:record].user.full_name} has commented on your post.",
         body: params[:record].text
       }
     when 'reply'
       return {
-        headline: "#{params[:record].user.name} has replied on your comment.",
+        headline: "#{params[:record].user.full_name} has replied on your comment.",
         body: params[:record].text
       }
     when 'update_comment'
       return {
-        headline: "#{params[:record].user.name} has updated a comment on your post.",
+        headline: "#{params[:record].user.full_name} has updated a comment on your post.",
         body: params[:record].text
       }
     when 'update_reply'
       return {
-        headline: "#{params[:record].user.name} has updated a reply on your comment.",
+        headline: "#{params[:record].user.full_name} has updated a reply on your comment.",
         body: params[:record].text
       }
     end

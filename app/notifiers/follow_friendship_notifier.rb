@@ -25,14 +25,14 @@ class FollowFriendshipNotifier < Noticed::Event
 
   def notification_params 
     {
-      follower: params[:record].follower.fullname,
+      follower: params[:record].follower.full_name,
     }
   end
 
   notification_methods do 
     if params[:record].became_friends
       def message
-        "#{notification_params[:follower].fullName} has followed you back. You are now friends!! "  
+        "#{notification_params[:follower].full_name} has followed you back. You are now friends!! "  
       end
       
       def categorize_friend
@@ -43,7 +43,7 @@ class FollowFriendshipNotifier < Noticed::Event
     
     else
       def message
-        "#{notification_params[:follower].fullName} has followed you."
+        "#{notification_params[:follower].full_name} has followed you."
       end
     end
     

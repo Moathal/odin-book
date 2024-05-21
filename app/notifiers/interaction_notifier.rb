@@ -25,20 +25,16 @@ class InteractionNotifier < Noticed::Event
   notification_methods do
     if params[:record].is_a?(Reaction)
       def message
-        "#{params[:record].user.name} has reacted with #{params[:record].reaction} to your post."
-      end
-
-      def url
-        params[:record].post
+        "#{params[:record].user.full_name} has reacted with #{params[:record].reaction} to your post."
       end
     else
       def message
-        "#{params[:record].user.name} has shared your post."
+        "#{params[:record].user.full_name} has shared your post."
       end
-
-      def url
-        params[:record].post
-      end
+    end
+    
+    def url
+      post_path(params[:record].post)
     end
   end
 end
