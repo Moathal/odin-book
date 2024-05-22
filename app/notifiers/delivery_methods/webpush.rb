@@ -1,0 +1,8 @@
+class DeliveryMethods::Webpush < Noticed::DeliveryMethod
+  # Specify the config options your delivery method requires in its config block
+  required_options # :foo, :bar
+
+  def deliver
+    # Logic for sending the notification
+  end
+end

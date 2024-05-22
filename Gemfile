@@ -96,8 +96,6 @@ gem 'pagy'
 
 gem 'cancancan'
 
-gem 'ransack'
-
 gem 'noticed'
 
 
@@ -107,6 +105,12 @@ group :test do
   gem "selenium-webdriver"
 end
 
+
+# handles webpush notification https://github.com/zaru/webpush
+gem 'web-push'
+
+
 gem "elasticsearch-model", "~> 7.2"
+
 
 gem "elasticsearch-rails", "~> 7.2"

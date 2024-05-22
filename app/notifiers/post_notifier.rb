@@ -1,26 +1,11 @@
 # To deliver this notification:
 #
-# Post.with(record: @post, message: "New post").deliver(User.all)
+# PostNotifier.with(record: @post).deliver(User.all)
 
 class PostNotifier < Noticed::Event
-  # Add your delivery methods
-  #
-  # deliver_by :email do |config|
-  #   config.mailer = "UserMailer"
-  #   config.method = "new_post"
-  # end
-  #
-  # bulk_deliver_by :slack do |config|
-  #   config.url = -> { Rails.application.credentials.slack_webhook_url }
-  # end
-  #
-  # deliver_by :custom do |config|
-  #   config.class = "MyDeliveryMethod"
-  # end
+  deliver_by :turbo_stream, class: "DeliveryMethods::TurboStream"
+  
 
-  # Add required params
-  #
-  # required_param :recipient_type
   notification_methods do
     def message
       message_on_type
