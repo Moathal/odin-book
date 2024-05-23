@@ -3,28 +3,18 @@
 # CommentNotifier.with(record: @post, type: "comment").deliver(User.all)
 
 class CommentNotifier < Noticed::Event
-  # Add your delivery methods
-  #
-  # deliver_by :email do |config|
-  #   config.mailer = "UserMailer"
-  #   config.method = "new_post"
-  # end
-  #
-  # bulk_deliver_by :slack do |config|
-  #   config.url = -> { Rails.application.credentials.slack_webhook_url }
-  # end
-  #
-  # deliver_by :custom do |config|
-  #   config.class = "MyDeliveryMethod"
-  # end
+  deliver_by :turbo_stream, class: "DeliveryMethods::TurboStream"
+  deliver_by :webpush, class: "DeliveryMethods::Webpush"
 
-  # Add required params
-  #
   required_param :type
   
   notification_methods do
-    def message
+    def title_message
       message_type
+    end
+
+    def body_message
+      params[:record].text
     end
     
     def url
@@ -36,23 +26,19 @@ class CommentNotifier < Noticed::Event
     case params[:type]
     when 'comment'
       return {
-        headline: "#{params[:record].user.full_name} has commented on your post.",
-        body: params[:record].text
+        "#{params[:record].user.full_name} has commented on your post.",
       }
     when 'reply'
       return {
-        headline: "#{params[:record].user.full_name} has replied on your comment.",
-        body: params[:record].text
+        "#{params[:record].user.full_name} has replied on your comment.",
       }
     when 'update_comment'
       return {
-        headline: "#{params[:record].user.full_name} has updated a comment on your post.",
-        body: params[:record].text
+        "#{params[:record].user.full_name} has updated a comment on your post.",
       }
     when 'update_reply'
       return {
-        headline: "#{params[:record].user.full_name} has updated a reply on your comment.",
-        body: params[:record].text
+        "#{params[:record].user.full_name} has updated a reply on your comment.",
       }
     end
   end

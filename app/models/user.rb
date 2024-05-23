@@ -27,6 +27,8 @@ class User < ApplicationRecord
   enum profile_privacy_setting: { profile_onlyme: 0, profile_everyone: 1, profile_followers: 2, profile_followees: 3, profile_specific_users: 4, profile_friends: 5, profile_close_friends: 6, profile_family: 7, profile_other: 8 }
   
   has_many :notifications, class_name: 'Noticed:Model', as: :recipient
+
+  has_many :notifySubscribtions
   
   include UserMethods
 end

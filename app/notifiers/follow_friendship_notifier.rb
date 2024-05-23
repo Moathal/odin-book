@@ -4,24 +4,8 @@
 # FollowFriendshipNotifier.with(record: follow).deliver(follow.followee)
 
 class FollowFriendshipNotifier < Noticed::Event
-  # Add your delivery methods
-  #
-  # deliver_by :email do |config|
-  #   config.mailer = "UserMailer"
-  #   config.method = "new_post"
-  # end
-  #
-  # bulk_deliver_by :slack do |config|
-  #   config.url = -> { Rails.application.credentials.slack_webhook_url }
-  # end
-  #
-  # deliver_by :custom do |config|
-  #   config.class = "MyDeliveryMethod"
-  # end
-
-  # Add required params
-  #
-  # required_param :message
+  deliver_by :turbo_stream, class: "DeliveryMethods::TurboStream"
+  deliver_by :webpush, class: "DeliveryMethods::Webpush"
 
   def notification_params 
     {
@@ -31,7 +15,7 @@ class FollowFriendshipNotifier < Noticed::Event
 
   notification_methods do 
     if params[:record].became_friends
-      def message
+      def body_message
         "#{notification_params[:follower].full_name} has followed you back. You are now friends!! "  
       end
       
@@ -42,13 +26,17 @@ class FollowFriendshipNotifier < Noticed::Event
       end
     
     else
-      def message
+      def body_message
         "#{notification_params[:follower].full_name} has followed you."
       end
     end
     
     def follower_url
       user_path(params[:record].follower)
+    end
+
+    def title_message
+      "A new Notification"
     end
   end
 

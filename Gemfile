@@ -83,8 +83,8 @@ gem 'figaro'
 # OmniAuth for google
 gem 'omniauth-google-oauth2'
 
-# OmniAuth for twitter
-gem 'omniauth-twitter'
+# For firebase cloud messaging FCM to work with notced gem (https://github.com/excid3/noticed/blob/main/docs/delivery_methods/fcm.md)
+gem "googleauth"
 
 # Omniauth facilitator
 gem 'omniauth'

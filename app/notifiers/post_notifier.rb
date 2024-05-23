@@ -4,13 +4,18 @@
 
 class PostNotifier < Noticed::Event
   deliver_by :turbo_stream, class: "DeliveryMethods::TurboStream"
+  deliver_by :webpush, class: "DeliveryMethods::Webpush"
   
 
   notification_methods do
-    def message
+    def title_message
       message_on_type
     end
 
+    def body_message
+      params[:record].text
+    end
+    
     def url
       post_path(params[:record])
     end
