@@ -3,24 +3,23 @@
 # InteractionNotifier.with(record: @reaction, message: "New post").deliver(User.all)
 
 class InteractionNotifier < Noticed::Event
-  # Add your delivery methods
-  #
-  # deliver_by :email do |config|
-  #   config.mailer = "UserMailer"
-  #   config.method = "new_post"
-  # end
-  #
-  # bulk_deliver_by :slack do |config|
-  #   config.url = -> { Rails.application.credentials.slack_webhook_url }
-  # end
-  #
-  # deliver_by :custom do |config|
-  #   config.class = "MyDeliveryMethod"
-  # end
-
-  # Add required params
-  #
-  # required_param :type
+  deliver_by :turbo_stream, class: "DeliveryMethods::TurboStream"
+  deliver_by :webpush, class: "DeliveryMethods::Webpush"
+  deliver_by :fcm do |config|
+    config.credentials = "config/certs/fcm.json"
+    config.device_tokens = -> { recipient.fcm_device_tokens.pluck(:token) }
+    config.json = ->(device_token) {
+      {
+        message: {
+          token: device_token,
+          notification: {
+            title: title_message,
+            body: body_message,
+            url: url
+          }
+        }
+      }
+    }
 
   notification_methods do
     if params[:record].is_a?(Reaction)

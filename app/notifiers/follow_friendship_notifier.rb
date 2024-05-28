@@ -7,6 +7,23 @@ class FollowFriendshipNotifier < Noticed::Event
   deliver_by :turbo_stream, class: "DeliveryMethods::TurboStream"
   deliver_by :webpush, class: "DeliveryMethods::Webpush"
 
+  deliver_by :fcm do |config|
+    config.credentials = "config/certs/fcm.json"
+    config.device_tokens = -> { recipient.fcm_device_tokens.pluck(:token) }
+    config.json = ->(device_token) {
+      {
+        message: {
+          token: device_token,
+          notification: {
+            title: title_message,
+            body: body_message,
+            url: url
+          }
+        }
+      }
+    }
+  end
+
   def notification_params 
     {
       follower: params[:record].follower.full_name,
@@ -43,5 +60,9 @@ class FollowFriendshipNotifier < Noticed::Event
   def change_friendship_type_url
       friendship = Friendship.find_by(user_id: recipient.id, friend_id: params[:record].follower.id)
     user_friendship_path(recipient, friendship, type: friendship.type)
+  end
+
+  def cleanup_device_token(token:)
+    FcmDeviceToken.where(token: token).destroy_all
   end
 end

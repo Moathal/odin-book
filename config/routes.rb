@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'fcm_device_tokens/create'
+  get 'fcm_device_tokens/destroy'
   get 'friendships/index'
   get 'friendships/create'
   get 'friendships/update'
