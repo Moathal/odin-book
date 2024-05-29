@@ -20,6 +20,10 @@ class InteractionNotifier < Noticed::Event
         }
       }
     }
+    config.invalid_token = ->(device_token) {
+     cleanup_device_token(token: device_token)
+    }
+  end
 
   notification_methods do
     if params[:record].is_a?(Reaction)
@@ -39,5 +43,9 @@ class InteractionNotifier < Noticed::Event
     def url
       post_path(params[:record].post)
     end
+  end
+
+  def cleanup_device_token(token:)
+    FcmDeviceToken.find_by(token: token).destroy_all
   end
 end

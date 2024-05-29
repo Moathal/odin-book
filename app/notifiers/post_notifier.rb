@@ -20,6 +20,10 @@ class PostNotifier < Noticed::Event
         }
       }
     }
+    config.invalid_token = -> (device_token) {
+      cleanup_device_token(token: device_token)
+    }
+  end
 
   notification_methods do
     def title_message
@@ -50,5 +54,9 @@ class PostNotifier < Noticed::Event
     else
       [params[:record].user] + params[:record].user.friends
     end
+  end
+
+  def cleanup_device_token(token:)
+    FcmDeviceToken.find_by(token: token).destroy_all
   end
 end

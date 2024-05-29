@@ -21,6 +21,10 @@ class CommentNotifier < Noticed::Event
         }
       }
     }
+    config.invalid_token = -> (device_token) {
+      cleanup_device_token(token: device_token)
+    }
+  end
 
   required_param :type
   
@@ -57,5 +61,9 @@ class CommentNotifier < Noticed::Event
         "#{params[:record].user.full_name} has updated a reply on your comment.",
       }
     end
+  end
+  
+  def cleanup_device_token(token:)
+    FcmDeviceToken.find_by(token: token).destroy_all
   end
 end

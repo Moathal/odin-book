@@ -8,7 +8,7 @@ class FollowFriendshipNotifier < Noticed::Event
   deliver_by :webpush, class: "DeliveryMethods::Webpush"
 
   deliver_by :fcm do |config|
-    config.credentials = "config/certs/fcm.json"
+    config.credentials = "config/credentials/fcm.json"
     config.device_tokens = -> { recipient.fcm_device_tokens.pluck(:token) }
     config.json = ->(device_token) {
       {
@@ -21,6 +21,9 @@ class FollowFriendshipNotifier < Noticed::Event
           }
         }
       }
+    }
+    config.invalid_token = ->(device_token) {
+     cleanup_device_token(token: device_token)
     }
   end
 
