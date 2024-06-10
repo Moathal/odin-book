@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_14_173954) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_27_145839) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -72,6 +72,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_14_173954) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "fcm_device_tokens", force: :cascade do |t|
+    t.string "token"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_fcm_device_tokens_on_user_id"
+  end
+
   create_table "follows", force: :cascade do |t|
     t.bigint "follower_id", null: false
     t.bigint "followee_id", null: false
@@ -84,8 +92,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_14_173954) do
   create_table "friendships", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "friend_id", null: false
-    t.string "type"
-    t.string "integer"
+    t.integer "type", default: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["friend_id"], name: "index_friendships_on_friend_id"
@@ -126,6 +133,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_14_173954) do
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_noticed_notifications_on_event_id"
     t.index ["recipient_type", "recipient_id"], name: "index_noticed_notifications_on_recipient"
+  end
+
+  create_table "notify_subscribtions", force: :cascade do |t|
+    t.string "endpoint"
+    t.string "auth_key"
+    t.string "p256dh_key"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notify_subscribtions_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -200,11 +217,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_14_173954) do
   add_foreign_key "blocks", "users", column: "blocked_user_id"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "fcm_device_tokens", "users"
   add_foreign_key "follows", "users", column: "followee_id"
   add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "interactions", "posts"
+  add_foreign_key "notify_subscribtions", "users"
   add_foreign_key "posts", "posts", column: "shared_post_id"
   add_foreign_key "posts", "users"
   add_foreign_key "reactions", "posts"
