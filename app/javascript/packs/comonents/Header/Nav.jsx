@@ -1,24 +1,39 @@
 import React from 'react'
 
-function Nav() {
+function Nav({loggedInUser}) {
   return (
 		<nav>
 			<ul>
 				<li>
-					<Link to='/'>HOME</Link>
+					<a href='/'>HOME</a>
 				</li>
 				<li>
-					<Link to={`/users/${userId}`}>Privacy</Link>
+					<a
+						href={`/users/${loggedInUser.id}`}
+						data-turbo-frame='react_component'>
+						Privacy
+					</a>
 				</li>
 				<li>
-					<Link to={`/users/${userId}/posts`}>My Profile</Link>
+					<a
+						href={`/users/${loggedInUser.id}/posts`}
+						data-turbo-frame='react_component'>
+						My Profile
+					</a>
 				</li>
 
 				<li>
-					{localStorage.getItem("token") ? (
-						<Link to='/logout'>Logout</Link>
+					{loggedInUser ? (
+						<a
+							href='/users/sign_out'
+							data-turbo-method='delete'
+							data-turbo-frame='react_component'>
+							Logout
+						</a>
 					) : (
-						<Link to='/login'>Login</Link>
+						<a href='/users/sign_in' data-turbo-frame='react_component'>
+							Login
+						</a>
 					)}
 				</li>
 			</ul>

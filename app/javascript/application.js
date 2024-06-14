@@ -1,11 +1,16 @@
+// app/javascript/application.js
 import "@hotwired/turbo-rails";
+import { Application } from "@hotwired/stimulus";
+import ReactController from "./controllers/react_controller";
 import "controllers";
 import "trix";
 import "@rails/actiontext";
 
-// Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
+// Initialize Stimulus application and register the React controller
+const application = Application.start();
+application.register("react", ReactController);
 
-
+// VAPID key for web push notifications
 const vapidPublicKey = new Uint8Array(
   <%= Base64.urlsafe_decode64(Rails.application.credentials.dig(:webpush, :public_key)).bytes %>
 );
@@ -27,8 +32,6 @@ if (navigator.serviceWorker) {
       }).then(postData => postData.json());
     });
   });
-}
-// Otherwise, no push notifications :(
-else {
+} else {
   console.error("Service worker is not supported in this browser");
 }
