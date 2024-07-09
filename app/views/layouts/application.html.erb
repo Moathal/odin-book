@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Odinbook</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>MyApp</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+</head>
 
   <body>
-    <% if signed_in? %>
-      <h1><%= current_user.first_name%></h1>
-      <%= link_to "Edit Profile", edit_user_registration_path %>
-      <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
-    <% else %>
-    <%= link_to "Sign In", new_user_session_path %>
-    <% end %>
-    <%= yield %>
+    <div id="app">
+        <%= turbo_mount("Header", props: { userId: current_user&.id }) %>
+       <%# <%= turbo_frame_tag "main" do %>
+        <%= yield %>
+      <%# <%= end %>
+    </div>
   </body>
 </html>

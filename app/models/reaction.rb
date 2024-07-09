@@ -5,6 +5,14 @@ class Reaction < ApplicationRecord
 
   enum :reaction, { dislike: -1, like: 0, love: 1, haha: 2, wow: 3, sad: 4, angry: 5}
 
+  scope :likes, -> { where(reaction: :like) }
+  scope :loves, -> { where(reaction: :love) }
+  scope :hahas, -> { where(reaction: :haha) }
+  scope :wows, -> { where(reaction: :wow) }
+  scope :sads, -> { where(reaction: :sad) }
+  scope :angrys, -> { where(reaction: :angry) }
+  scope :dislikes, -> { where(reaction: :dislike) }
+
   def update_interactions
     if ['create', 'update'].include? action
       reaction >= 0 ? post.interactions.increment(:likes_num).save : post.interactions.increment(:dislikes_num).save

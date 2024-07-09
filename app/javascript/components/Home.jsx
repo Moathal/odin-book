@@ -5,14 +5,9 @@ import Post from './Post/Post';
 function Home(props) {
   const newsFeed = props.news_feeds;
   return (
-    <>
-      <Header />
       <div>
-        {newsFeed.map((feed) => (
-          <Post key={feed.id} props={feed} />
-        ))}
+        return <Posts props={newsFeed} />
       </div>
-    </>
   );
 }
 

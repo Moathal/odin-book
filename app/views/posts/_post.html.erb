@@ -1,10 +1,1 @@
-<div id="<%= dom_id post %>">
-  <p>
-    <%= image_tag(post.user.avatar, alt: "#{post.user.username}'s avatar", style: "width: 100px; height: 100px;") %>
-    <h2><%= post.user.first_name %> <%= post.user.last_name %></h2>
-  </p>
-
-  <p>
-    <%= post.text %>
-  </p>
-</div>
+<%# <%= turbo_mount("Post", props: {post: {id: post.id, poster: post.user, current_user: current_user&.id, text: }}) %> %>

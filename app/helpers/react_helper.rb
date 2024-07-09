@@ -1,5 +1,9 @@
 module ReactHelper
-  def react(component, props = {}, tag_name = :div)
-    content_tag tag_name, nil, data: { controller: "react", react: { component: component, props: props.to_json } }
+  def react(component_name, props: {}, **args)
+    content_tag(:div, "", data: {
+      controller: "react",
+      react_component_value: component_name,
+      react_props_value: props
+    }, **args)
   end
 end

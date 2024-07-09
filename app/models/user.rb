@@ -12,7 +12,9 @@ class User < ApplicationRecord
   :recoverable, :rememberable, :validatable, :confirmable, :omniauthable, omniauth_providers: [:google_oauth2]
 
   has_many :shared_posts, through: :shares, source: :post
-  
+
+  has_many :reactions, dependent: :destroy
+
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_one_attached :avatar

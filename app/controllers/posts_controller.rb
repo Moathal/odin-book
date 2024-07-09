@@ -2,6 +2,14 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[ show destroy ]
   before_action :authenticate_user!, except: %i[ index show ]
   # GET /posts/1 or /posts/1.json
+  def index
+    @posts = Post.all.map do |post|
+            post.as_json.merge({
+                text_html: post.text.to_s
+            })
+    end
+  end
+
   def show
     @comments = @post.comments
     @comment = Comment.new

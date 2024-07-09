@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @pagy, @news_feed = filter_posts
   end
